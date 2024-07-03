@@ -26,8 +26,7 @@
     "test": "vitest",
     "lint": "eslint",
     "build": "rollup -c",
-    "start": "rollup -c -w",
-    "prepare": "npm run build"
+    "start": "rollup -c -w"
   },
   "dependencies": {
     "lodash-es": "^4.17.21"
@@ -59,6 +58,17 @@
     "typescript": "^5.5.3",
     "typescript-eslint": "^7.15.0",
     "vitest": "^1.6.0"
+  },
+  "overrides": {
+    "eslint-plugin-react": {
+      "eslint": "$eslint"
+    },
+    "@eslint-community/eslint-utils": {
+      "eslint": "$eslint"
+    },
+    "typescript-eslint": {
+      "eslint": "$eslint"
+    }
   },
   "files": [
     "dist",
