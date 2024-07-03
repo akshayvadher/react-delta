@@ -1,6 +1,6 @@
 import useConditionalEffect, {
-  ConditionalEffectCallback
-} from "./useConditionalEffect";
+  ConditionalEffectCallback,
+} from './useConditionalEffect';
 
 export { ConditionalEffectCallback };
 

@@ -6,11 +6,11 @@ export interface Delta<T> {
   curr: T;
 }
 
-export type DeltaArray<T extends any[]> = {
+export type DeltaArray<T extends unknown[]> = {
   [k in keyof T]: Nullable<Delta<T[k]>>;
 };
 
-export type DeltaObject<T extends {}> = {
+export type DeltaObject<T extends object> = {
   [k in keyof T]: Nullable<Delta<T[k]>>;
 };
 

@@ -1,29 +1,34 @@
+import { describe, expect, it, vi } from 'vitest';
 import React from 'react';
 import useConditionalEffect from './useConditionalEffect';
 import { mount } from 'enzyme';
 
 interface Props {
-    condition?: boolean;
-    effect: Function;
-    cleanup: Function;
+  condition?: boolean;
+  effect: () => void;
+  cleanup: () => void;
 }
 
-const App = ({effect, cleanup, condition}: Props) => {
-    useConditionalEffect(() => {
-      effect();
-      return () => cleanup();
-    }, condition);
+const App = ({ effect, cleanup, condition }: Props) => {
+  useConditionalEffect(() => {
+    effect();
+    return () => cleanup();
+  }, condition);
 
-    return null;
+  return null;
 };
 
 describe('useConditionalEffect', () => {
   it('should run on mount if true', () => {
-    const effectObserver = jest.fn();
-    const cleanupObserver = jest.fn();
+    const effectObserver = vi.fn();
+    const cleanupObserver = vi.fn();
 
     mount(
-        <App effect={effectObserver} cleanup={cleanupObserver} condition={true} />
+      <App
+        effect={effectObserver}
+        cleanup={cleanupObserver}
+        condition={true}
+      />,
     );
 
     expect(effectObserver).toHaveBeenCalledTimes(1);
@@ -31,11 +36,15 @@ describe('useConditionalEffect', () => {
   });
 
   it('should not run on mount if false', () => {
-    const effectObserver = jest.fn();
-    const cleanupObserver = jest.fn();
+    const effectObserver = vi.fn();
+    const cleanupObserver = vi.fn();
 
     mount(
-        <App effect={effectObserver} cleanup={cleanupObserver} condition={false} />
+      <App
+        effect={effectObserver}
+        cleanup={cleanupObserver}
+        condition={false}
+      />,
     );
 
     expect(effectObserver).toHaveBeenCalledTimes(0);
@@ -43,25 +52,33 @@ describe('useConditionalEffect', () => {
   });
 
   it('should clean up before running next effect', () => {
-    const effectObserver = jest.fn();
-    const cleanupObserver = jest.fn();
+    const effectObserver = vi.fn();
+    const cleanupObserver = vi.fn();
 
     const wrapper = mount(
-        <App effect={effectObserver} cleanup={cleanupObserver} condition={true} />
+      <App
+        effect={effectObserver}
+        cleanup={cleanupObserver}
+        condition={true}
+      />,
     );
 
-    wrapper.setProps({condition: true});
+    wrapper.setProps({ condition: true });
 
     expect(effectObserver).toHaveBeenCalledTimes(2);
     expect(cleanupObserver).toHaveBeenCalledTimes(1);
   });
 
   it('should clean up before unmounting', () => {
-    const effectObserver = jest.fn();
-    const cleanupObserver = jest.fn();
+    const effectObserver = vi.fn();
+    const cleanupObserver = vi.fn();
 
     const wrapper = mount(
-        <App effect={effectObserver} cleanup={cleanupObserver} condition={true} />
+      <App
+        effect={effectObserver}
+        cleanup={cleanupObserver}
+        condition={true}
+      />,
     );
 
     wrapper.unmount();
@@ -71,39 +88,51 @@ describe('useConditionalEffect', () => {
   });
 
   it('should not run if false on non-first renders', () => {
-    const effectObserver = jest.fn();
-    const cleanupObserver = jest.fn();
+    const effectObserver = vi.fn();
+    const cleanupObserver = vi.fn();
 
     const wrapper = mount(
-        <App effect={effectObserver} cleanup={cleanupObserver} condition={true} />
+      <App
+        effect={effectObserver}
+        cleanup={cleanupObserver}
+        condition={true}
+      />,
     );
 
-    wrapper.setProps({condition: false});
+    wrapper.setProps({ condition: false });
 
     expect(effectObserver).toHaveBeenCalledTimes(1);
     expect(cleanupObserver).toHaveBeenCalledTimes(0);
   });
 
   it('should run if true on non-first renders', () => {
-    const effectObserver = jest.fn();
-    const cleanupObserver = jest.fn();
+    const effectObserver = vi.fn();
+    const cleanupObserver = vi.fn();
 
     const wrapper = mount(
-        <App effect={effectObserver} cleanup={cleanupObserver} condition={false} />
+      <App
+        effect={effectObserver}
+        cleanup={cleanupObserver}
+        condition={false}
+      />,
     );
 
-    wrapper.setProps({condition: true});
+    wrapper.setProps({ condition: true });
 
     expect(effectObserver).toHaveBeenCalledTimes(1);
     expect(cleanupObserver).toHaveBeenCalledTimes(0);
   });
 
   it('should not run if undefined', () => {
-    const effectObserver = jest.fn();
-    const cleanupObserver = jest.fn();
+    const effectObserver = vi.fn();
+    const cleanupObserver = vi.fn();
 
     const wrapper = mount(
-        <App effect={effectObserver} cleanup={cleanupObserver} condition={undefined} />
+      <App
+        effect={effectObserver}
+        cleanup={cleanupObserver}
+        condition={undefined}
+      />,
     );
 
     wrapper.unmount();

@@ -1,64 +1,77 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { action } from '@storybook/addon-actions';
 import useDelta from '../useDelta';
 
 export default {
-    title: 'useDelta'
+  title: 'useDelta',
 };
 
 export const Primitives = () => {
-    const [count, setCount] = useState(0);
-    const [unrelatedState, setUnrelatedState] = useState(false);
+  const [count, setCount] = useState(0);
+  const [unrelatedState, setUnrelatedState] = useState(false);
 
-    const countDelta = useDelta(count);
+  const countDelta = useDelta(count);
 
-    useEffect(() => {
-        action('Count delta')(countDelta);
-    });
+  useEffect(() => {
+    action('Count delta')(countDelta);
+  });
 
-    return (
-        <div>
-            <button onClick={() => setCount(c => c + 1)}>Increment: {count}</button>
-            <button onClick={() => setUnrelatedState(p => !p)}>Toggle Unrelated State: {String(unrelatedState)}</button>
-        </div>
-    );
+  return (
+    <div>
+      <button onClick={() => setCount((c) => c + 1)}>Increment: {count}</button>
+      <button onClick={() => setUnrelatedState((p) => !p)}>
+        Toggle Unrelated State: {String(unrelatedState)}
+      </button>
+    </div>
+  );
 };
 
 export const Shallow = () => {
-    const [state, setState] = useState({ count: 0 });
-    const [unrelatedState, setUnrelatedState] = useState(false);
+  const [state, setState] = useState({ count: 0 });
+  const [unrelatedState, setUnrelatedState] = useState(false);
 
-    const countDelta = useDelta(state);
+  const countDelta = useDelta(state);
 
-    useEffect(() => {
-        action('Count delta')(countDelta);
-    });
+  useEffect(() => {
+    action('Count delta')(countDelta);
+  });
 
-    return (
-        <div>
-            <button onClick={() => setState(s => ({count: s.count}))}>Replace: {JSON.stringify(state)}</button>     
-            <button onClick={() => setState(s => ({count: s.count + 1}))}>Increment: {JSON.stringify(state)}</button>        
-            <button onClick={() => setUnrelatedState(p => !p)}>Toggle Unrelated State: {String(unrelatedState)}</button>
-        </div>
-    );
+  return (
+    <div>
+      <button onClick={() => setState((s) => ({ count: s.count }))}>
+        Replace: {JSON.stringify(state)}
+      </button>
+      <button onClick={() => setState((s) => ({ count: s.count + 1 }))}>
+        Increment: {JSON.stringify(state)}
+      </button>
+      <button onClick={() => setUnrelatedState((p) => !p)}>
+        Toggle Unrelated State: {String(unrelatedState)}
+      </button>
+    </div>
+  );
 };
 
-
 export const Deep = () => {
-    const [state, setState] = useState({ count: 0 });
-    const [unrelatedState, setUnrelatedState] = useState(false);
+  const [state, setState] = useState({ count: 0 });
+  const [unrelatedState, setUnrelatedState] = useState(false);
 
-    const countDelta = useDelta(state, { deep: true });
+  const countDelta = useDelta(state, { deep: true });
 
-    useEffect(() => {
-        action('Count delta')(countDelta);
-    });
+  useEffect(() => {
+    action('Count delta')(countDelta);
+  });
 
-    return (
-        <div>
-            <button onClick={() => setState(s => ({count: s.count}))}>Replace: {JSON.stringify(state)}</button>     
-            <button onClick={() => setState(s => ({count: s.count + 1}))}>Increment: {JSON.stringify(state)}</button>          
-            <button onClick={() => setUnrelatedState(p => !p)}>Toggle Unrelated State: {String(unrelatedState)}</button>
-        </div>
-    );
+  return (
+    <div>
+      <button onClick={() => setState((s) => ({ count: s.count }))}>
+        Replace: {JSON.stringify(state)}
+      </button>
+      <button onClick={() => setState((s) => ({ count: s.count + 1 }))}>
+        Increment: {JSON.stringify(state)}
+      </button>
+      <button onClick={() => setUnrelatedState((p) => !p)}>
+        Toggle Unrelated State: {String(unrelatedState)}
+      </button>
+    </div>
+  );
 };
