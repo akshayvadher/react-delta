@@ -1,6 +1,6 @@
 import useConditionalLayoutEffect, {
-  ConditionalLayoutEffectCallback
-} from "./useConditionalLayoutEffect";
+  ConditionalLayoutEffectCallback,
+} from './useConditionalLayoutEffect';
 
 export { ConditionalLayoutEffectCallback };
 

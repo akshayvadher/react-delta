@@ -1,18 +1,18 @@
-import { useEffect, useRef } from "react";
-import useLatest from "../useLatest";
-import { CleanupCallback } from "../shared";
+import { useEffect, useRef } from 'react';
+import useLatest from '../useLatest';
+import { CleanupCallback } from '../shared';
 
 export type ConditionalEffectCallback = () => CleanupCallback | void;
 
 function useConditionalEffect(
   callback: ConditionalEffectCallback,
-  shouldExecute: any = false
+  shouldExecute: boolean = false,
 ) {
   // update to truthyCount should cause update to run
   const truthyCount = useRef(0);
   // update to callback should not cause effect to re-run
   const callbackRef = useLatest(callback);
-  if (Boolean(shouldExecute)) {
+  if (shouldExecute) {
     truthyCount.current++;
   }
   useEffect(() => {

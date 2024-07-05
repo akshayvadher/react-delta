@@ -1,23 +1,40 @@
+# Disclaimer
+
+This is a fork of [react-delta](https://github.com/malerba118/react-delta) with the following
+changes:
+
+- React 18 support (The whole reason behind this fork is to make it work in react 18)
+- Testing with vitest instead of jest
+- Upgraded libraries
+- Using prettier for formatting
+- Using eslint for linting
+- Storybook upgraded
+- Publishing to es module now
+- Publish via github actions
+
+The original README is below.
+
+---
 # react-delta
 
 > Toolbelt for more flexible effects in react
 
-[![NPM](https://img.shields.io/npm/v/react-delta.svg)](https://www.npmjs.com/package/react-delta) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
+[![NPM](https://img.shields.io/npm/v/react-delta-hooks.svg)](https://www.npmjs.com/package/react-delta-hooks) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
 ## Install
 
 ```bash
-npm install --save react-delta
+npm install --save react-delta-hooks
 ```
 
 ## Overview
-By default, react functional components hide as much information as possible about adjacent renders. Refs are available if you want access to values from previous renders or even values from future renders, but `useEffect` dependency arrays are the primary mechanism provided to compare values to those in the previous render. If anything in the dependency array has changed, the effect will run. `react-delta` provides hooks to access the previous, current, and future values of a variable and the ability to compare these values in whichever fashion you'd like. Once you've figured out how the new values compare to the old, you can use a simple boolean to decide whether an effect should run.
+By default, react functional components hide as much information as possible about adjacent renders. Refs are available if you want access to values from previous renders or even values from future renders, but `useEffect` dependency arrays are the primary mechanism provided to compare values to those in the previous render. If anything in the dependency array has changed, the effect will run. `react-delta-hooks` provides hooks to access the previous, current, and future values of a variable and the ability to compare these values in whichever fashion you'd like. Once you've figured out how the new values compare to the old, you can use a simple boolean to decide whether an effect should run.
 
 ## Motivation
-If you've used `useEffect` in your day-to-day, you've surely found yourself in tricky situations. For example, maybe you've wanted access to a value from a previous render to know *how* a variable has changed since the last render and not just that it *has* changed. Or maybe the linter has yelled at you to include all dependencies in the `useEffect` dependency array, but doing so would cause your effect to run too frequently. Or maybe you've wanted to use deep equality to trigger an effect instead of shallow equality. Or maybe you've had to store values in refs in order to access the latest value inside of `useEffect` after a long asynchronous action. `react-delta` aims to alleviate some of these pains in a clean and concise way.
+If you've used `useEffect` in your day-to-day, you've surely found yourself in tricky situations. For example, maybe you've wanted access to a value from a previous render to know *how* a variable has changed since the last render and not just that it *has* changed. Or maybe the linter has yelled at you to include all dependencies in the `useEffect` dependency array, but doing so would cause your effect to run too frequently. Or maybe you've wanted to use deep equality to trigger an effect instead of shallow equality. Or maybe you've had to store values in refs in order to access the latest value inside of `useEffect` after a long asynchronous action. `react-delta-hooks` aims to alleviate some of these pains in a clean and concise way.
 
 ## Scenario One
-You want to log when the window width has increased and when it has decreased. Below we see how we might approach this problem traditionally, and how we can better approach it using `react-delta`.
+You want to log when the window width has increased and when it has decreased. Below we see how we might approach this problem traditionally, and how we can better approach it using `react-delta-hooks`.
 
 ### Gross Solution
 ```jsx
@@ -43,7 +60,7 @@ function useWindowLogger() {
 
 ### Cool Solution
 ```jsx
-import { useDelta } from 'react-delta';
+import { useDelta } from 'react-delta-hooks';
 
 function useWindowLogger() {
   const { width } = useWindowSize();
@@ -64,7 +81,7 @@ function useWindowLogger() {
 ### Alternate Cool Solution
 
 ```jsx
-import { usePrevious } from 'react-delta';
+import { usePrevious } from 'react-delta-hooks';
 
 function useWindowLogger() {
   const { width } = useWindowSize();
@@ -85,7 +102,7 @@ function useWindowLogger() {
 
 ### Anotha Alternate Cool Solution
 ```jsx
-import { useDelta, useConditionalEffect } from 'react-delta';
+import { useDelta, useConditionalEffect } from 'react-delta-hooks';
 
 function useWindowLogger() {
   const { width } = useWindowSize();
@@ -106,7 +123,7 @@ You want to log only when *both* width and height of the window have changed, bu
 
 ### No Problem
 ```jsx
-import { useDeltaArray, every, useConditionalEffect } from 'react-delta';
+import { useDeltaArray, every, useConditionalEffect } from 'react-delta-hooks';
 
 function useWindowLogger() {
   const { width, height } = useWindowSize();
@@ -123,7 +140,7 @@ You want to set up an interval when the component mounts and its callback needs 
 
 ### How About This?
 ```jsx
-import { useLatest } from 'react-delta';
+import { useLatest } from 'react-delta-hooks';
 
 function useIntervalLogger(data) {
   const dataRef = useLatest(data);
@@ -140,7 +157,7 @@ function useIntervalLogger(data) {
 ## Demos
 
 
-See this [playground](https://codesandbox.io/s/react-delta-playground-qhbll) to mess around with `react-delta`.
+See this [playground](https://codesandbox.io/s/react-delta-hooks-playground-qhbll) to mess around with `react-delta-hooks`.
 
 
 ### usePrevious
@@ -187,7 +204,7 @@ The value passed to this hook during the previous render or undefined (if the fi
 #### Usage
 
 ```jsx
-import { usePrevious } from 'react-delta';
+import { usePrevious } from 'react-delta-hooks';
 
 function useWindowLogger() {
   const { width } = useWindowSize();
@@ -224,7 +241,7 @@ A ref to the value passed to this hook in the most recent render.
 #### Usage
 
 ```jsx
-import { useLatest } from 'react-delta';
+import { useLatest } from 'react-delta-hooks';
 
 function useIntervalLogger(data) {
   const dataRef = useLatest(data);
@@ -264,7 +281,7 @@ If the observed variable has changed between the current and the previous render
 #### Usage
 
 ```jsx
-import { useDelta, useConditionalEffect } from 'react-delta'
+import { useDelta, useConditionalEffect } from 'react-delta-hooks'
 
 const useFetch = (url) => {
     const delta = useDelta(url)
@@ -277,7 +294,7 @@ const useFetch = (url) => {
 
 ### `useDeltaObject(obj, options)`
 
-Determines the deltas of the values of the passed object. This is useful for observing many variables at once. For example, you could use this hook to find the deltas of all props. 
+Determines the deltas of the values of the passed object. This is useful for observing many variables at once. For example, you could use this hook to find the deltas of all props.
 
 **Note**: Only the keys of the object passed during the first render will be observed. If different keys are passed after the first render, they will be ignored. For this reason, it is recommend that you explicitly pass object keys (eg. `useDeltaObject({ foo: props.foo, bar: props.bar })` as opposed to `useDeltaObject(props)`).
 
@@ -299,7 +316,7 @@ An object with the same keys as the passed object, but whose values represent th
 #### Usage
 
 ```jsx
-import { useDeltaObject, some, useConditionalEffect } from 'react-delta'
+import { useDeltaObject, some, useConditionalEffect } from 'react-delta-hooks'
 
 const LogPropsOnChange = (props) => {
     const deltas = useDeltaObject(props)
@@ -307,7 +324,7 @@ const LogPropsOnChange = (props) => {
     useConditionalEffect(() => {
         console.log('At least one prop changed')
     }, some(Object.values(deltas)))
-    
+
     return null
 }
 ```
@@ -337,7 +354,7 @@ An array with the same length as the passed array, but whose values represent th
 #### Usage
 
 ```jsx
-import { useDeltaArray, some, useConditionalEffect } from 'react-delta'
+import { useDeltaArray, some, useConditionalEffect } from 'react-delta-hooks'
 
 const FooFetcher = ({page, search}) => {
     const [pageDelta, searchDelta] = useDeltaArray([page, search])
@@ -345,7 +362,7 @@ const FooFetcher = ({page, search}) => {
     useConditionalEffect(() => {
         fetch(`http://foo.com?search=${search}&page=${page}`)
     }, some([pageDelta, searchDelta]))
-    
+
     return null
 }
 ```
@@ -371,13 +388,13 @@ This method has no return value.
 #### Usage
 
 ```jsx
-import { useConditionalEffect } from 'react-delta'
+import { useConditionalEffect } from 'react-delta-hooks'
 
 const useEvenCountLogger = (count) => {
 
   useConditionalEffect(() => {
     console.log(count)
-  }, count % 2 === 0) 
+  }, count % 2 === 0)
 
 }
 ```
@@ -402,13 +419,13 @@ This method has no return value.
 #### Usage
 
 ```jsx
-import { useConditionalLayoutEffect } from 'react-delta'
+import { useConditionalLayoutEffect } from 'react-delta-hooks'
 
 const useEvenCountLogger = (count) => {
 
   useConditionalLayoutEffect(() => {
     console.log(count)
-  }, count % 2 === 0) 
+  }, count % 2 === 0)
 
 }
 ```
@@ -432,7 +449,7 @@ Returns true if any value in the array is truthy. Returns false if all values in
 #### Usage
 
 ```jsx
-import { some, useDeltaObject, useConditionalEffect } from "react-delta";
+import { some, useDeltaObject, useConditionalEffect } from "react-delta-hooks";
 
 const SomePropChangeLogger = props => {
   const deltas = useDeltaObject(props);
@@ -464,7 +481,7 @@ Returns true if every value in the array is truthy or if the array is empty. Ret
 #### Usage
 
 ```jsx
-import { every, useDeltaObject, useConditionalEffect } from "react-delta";
+import { every, useDeltaObject, useConditionalEffect } from "react-delta-hooks";
 
 const EveryPropChangeLogger = props => {
   const deltas = useDeltaObject(props);
@@ -523,4 +540,4 @@ type Optional<T> = T | undefined;
 
 ## License
 
-MIT © [malerba118](https://github.com/malerba118)
+MIT © [akshayvadher](https://github.com/akshayvadher)
