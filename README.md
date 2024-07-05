@@ -8,6 +8,7 @@ changes:
 - Upgraded libraries
 - Using prettier for formatting
 - Using eslint for linting
+- Storybook upgraded
 
 The original README is below.
 
@@ -17,12 +18,12 @@ The original README is below.
 
 > Toolbelt for more flexible effects in react
 
-[![NPM](https://img.shields.io/npm/v/react-delta.svg)](https://www.npmjs.com/package/react-delta) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
+[![NPM](https://img.shields.io/npm/v/react-delta-hooks.svg)](https://www.npmjs.com/package/react-delta-hooks) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
 ## Install
 
 ```bash
-npm install --save react-delta
+npm install --save react-delta-hooks
 ```
 
 ## Overview
@@ -78,7 +79,7 @@ function useWindowLogger() {
 ### Cool Solution
 
 ```jsx
-import {useDelta} from 'react-delta';
+import {useDelta} from 'react-delta-hooks';
 
 function useWindowLogger() {
   const {width} = useWindowSize();
@@ -99,7 +100,7 @@ function useWindowLogger() {
 ### Alternate Cool Solution
 
 ```jsx
-import {usePrevious} from 'react-delta';
+import {usePrevious} from 'react-delta-hooks';
 
 function useWindowLogger() {
   const {width} = useWindowSize();
@@ -120,7 +121,7 @@ function useWindowLogger() {
 ### Anotha Alternate Cool Solution
 
 ```jsx
-import {useDelta, useConditionalEffect} from 'react-delta';
+import {useDelta, useConditionalEffect} from 'react-delta-hooks';
 
 function useWindowLogger() {
   const {width} = useWindowSize();
@@ -144,7 +145,7 @@ has changed.
 ### No Problem
 
 ```jsx
-import {useDeltaArray, every, useConditionalEffect} from 'react-delta';
+import {useDeltaArray, every, useConditionalEffect} from 'react-delta-hooks';
 
 function useWindowLogger() {
   const {width, height} = useWindowSize();
@@ -164,7 +165,7 @@ future renders.
 ### How About This?
 
 ```jsx
-import {useLatest} from 'react-delta';
+import {useLatest} from 'react-delta-hooks';
 
 function useIntervalLogger(data) {
   const dataRef = useLatest(data);
@@ -180,8 +181,8 @@ function useIntervalLogger(data) {
 
 ## Demos
 
-See this [playground](https://codesandbox.io/s/react-delta-playground-qhbll) to mess around
-with `react-delta`.
+See this [playground](https://codesandbox.io/s/react-delta-hooks-playground-qhbll) to mess around
+with `react-delta-hooks`.
 
 ### usePrevious
 
@@ -218,11 +219,7 @@ Gets the value from the previous render of the observed variable.
 #### Signature
 
 ```tsx
-usePrevious<T>(value
-:
-T
-):
-Optional<T>;
+usePrevious<T>(value: T): Optional<T>;
 ```
 
 #### Parameters
@@ -236,7 +233,7 @@ The value passed to this hook during the previous render or undefined (if the fi
 #### Usage
 
 ```jsx
-import {usePrevious} from 'react-delta';
+import {usePrevious} from 'react-delta-hooks';
 
 function useWindowLogger() {
   const {width} = useWindowSize();
@@ -262,11 +259,7 @@ want to access a value from a future render inside of an older render.
 #### Signature
 
 ```tsx
-useLatest<T>(value
-:
-T
-):
-MutableRefObject<T>;
+useLatest<T>(value: T): MutableRefObject<T>;
 ```
 
 #### Parameters
@@ -280,7 +273,7 @@ A ref to the value passed to this hook in the most recent render.
 #### Usage
 
 ```jsx
-import {useLatest} from 'react-delta';
+import {useLatest} from 'react-delta-hooks';
 
 function useIntervalLogger(data) {
   const dataRef = useLatest(data);
@@ -305,11 +298,7 @@ Determines the delta of `value` between the current and the previous render.
 #### Signature
 
 ```tsx
-useDelta<T>(value
-:
-T, options ? : {deep? : boolean}
-):
-Nullable<Delta<T>>;
+useDelta<T>(value: T, options ? : {deep? : boolean}): Nullable<Delta<T>>;
 ```
 
 #### Parameters
@@ -327,7 +316,7 @@ returned. If nothing has changed, then `null` is returned.
 #### Usage
 
 ```jsx
-import {useDelta, useConditionalEffect} from 'react-delta'
+import {useDelta, useConditionalEffect} from 'react-delta-hooks'
 
 const useFetch = (url) => {
   const delta = useDelta(url)
@@ -351,12 +340,7 @@ to `useDeltaObject(props)`).
 #### Signature
 
 ```tsx
-useDeltaObject < T
-extends
-{
-}
->
-(obj: T, options?: { deep?: boolean }): DeltaObject<T>;
+useDeltaObject < T extends { } > (obj: T, options?: { deep?: boolean }): DeltaObject<T>;
 ```
 
 #### Parameters
@@ -374,7 +358,7 @@ passed object's values.
 #### Usage
 
 ```jsx
-import {useDeltaObject, some, useConditionalEffect} from 'react-delta'
+import {useDeltaObject, some, useConditionalEffect} from 'react-delta-hooks'
 
 const LogPropsOnChange = (props) => {
   const deltas = useDeltaObject(props)
@@ -400,13 +384,7 @@ eg. `useDeltaArray([props.foo, props.bar])` as opposed to `useDeltaArray(Object.
 #### Signature
 
 ```tsx
-useDeltaArray < T
-extends
-any[] > (array
-:
-T, options ? : {deep? : boolean}
-):
-DeltaArray<T>;
+useDeltaArray < T extends any[] > (array: T, options ? : {deep? : boolean}): DeltaArray<T>;
 ```
 
 #### Parameters
@@ -424,7 +402,7 @@ passed arrays's values.
 #### Usage
 
 ```jsx
-import {useDeltaArray, some, useConditionalEffect} from 'react-delta'
+import {useDeltaArray, some, useConditionalEffect} from 'react-delta-hooks'
 
 const FooFetcher = ({page, search}) => {
   const [pageDelta, searchDelta] = useDeltaArray([page, search])
@@ -445,13 +423,7 @@ function will run before the next effect.
 #### Signature
 
 ```tsx
-useConditionalEffect(callback
-:
-ConditionalEffectCallback, condition
-:
-any
-):
-void;
+useConditionalEffect(callback: ConditionalEffectCallback, condition: any): void;
 ```
 
 #### Parameters
@@ -468,7 +440,7 @@ This method has no return value.
 #### Usage
 
 ```jsx
-import {useConditionalEffect} from 'react-delta'
+import {useConditionalEffect} from 'react-delta-hooks'
 
 const useEvenCountLogger = (count) => {
 
@@ -487,13 +459,7 @@ cleanup function will run before the next layout effect.
 #### Signature
 
 ```tsx
-useConditionalLayoutEffect(callback
-:
-ConditionalLayoutEffectCallback, condition
-:
-any
-):
-void;
+useConditionalLayoutEffect(callback: ConditionalLayoutEffectCallback, condition: any): void;
 ```
 
 #### Parameters
@@ -510,7 +476,7 @@ This method has no return value.
 #### Usage
 
 ```jsx
-import {useConditionalLayoutEffect} from 'react-delta'
+import {useConditionalLayoutEffect} from 'react-delta-hooks'
 
 const useEvenCountLogger = (count) => {
 
@@ -528,11 +494,7 @@ Indicates whether some value in the array is truthy.
 #### Signature
 
 ```tsx
-some(array
-:
-any[]
-):
-boolean;
+some(array: any[]): boolean;
 ```
 
 #### Parameters
@@ -547,7 +509,7 @@ or if the array is empty.
 #### Usage
 
 ```jsx
-import {some, useDeltaObject, useConditionalEffect} from "react-delta";
+import {some, useDeltaObject, useConditionalEffect} from "react-delta-hooks";
 
 const SomePropChangeLogger = props => {
   const deltas = useDeltaObject(props);
@@ -567,11 +529,7 @@ Indicates whether every value in the array is truthy.
 #### Signature
 
 ```tsx
-every(array
-:
-any[]
-):
-boolean;
+every(array: any[]): boolean;
 ```
 
 #### Parameters
@@ -586,7 +544,7 @@ value in the array is false.
 #### Usage
 
 ```jsx
-import {every, useDeltaObject, useConditionalEffect} from "react-delta";
+import {every, useDeltaObject, useConditionalEffect} from "react-delta-hooks";
 
 const EveryPropChangeLogger = props => {
   const deltas = useDeltaObject(props);
@@ -652,4 +610,4 @@ type Optional<T> = T | undefined;
 
 ## License
 
-MIT © [malerba118](https://github.com/malerba118)
+MIT © [akshayvadher](https://github.com/akshayvadher)
