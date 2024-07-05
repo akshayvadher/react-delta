@@ -10,6 +10,7 @@ changes:
 - Using eslint for linting
 - Storybook upgraded
 - Publishing to es module now
+- Publish via github actions
 
 The original README is below.
 
