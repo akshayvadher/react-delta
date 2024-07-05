@@ -9,6 +9,7 @@ changes:
 - Using prettier for formatting
 - Using eslint for linting
 - Storybook upgraded
+- Publishing to es module now
 
 The original README is below.
 
